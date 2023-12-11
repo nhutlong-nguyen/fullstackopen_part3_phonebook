@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
 
 let persons = [
     { 
@@ -25,6 +26,17 @@ let persons = [
 ];
 
 app.use(express.json());
+
+//Define a new morgan token for logging request body
+morgan.token('body', (req) => {
+  //Only log the body for POST requests and ensure it's a type that can be safely converted to JSON
+  if (req.method === 'POST' && req.headers['content-type'] === 'application/json') {
+    return JSON.stringify(req.body);
+  }
+  return '';
+});
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
 app.get('/', (req, res) => {
     res.send('This is the root page');
@@ -57,9 +69,7 @@ app.get('/api/persons/:id', (req, res) => {
 
 app.delete('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id);
-  console.log(`id: ${id}`);
   persons = persons.filter(person => person.id !== id);
-  console.log(persons);
   res.status(204).end();
 })
 
@@ -100,7 +110,6 @@ app.post('/api/persons/', (req, res) => {
 
   persons = persons.concat(person);
   res.json(person);
-  console.log(person);
 });
 
 const PORT = 3002;
