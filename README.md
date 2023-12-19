@@ -1,3 +1,3 @@
 # Link to online application
-You can access the live application here: [Phonebook App](https://phonebook-backend-part3.fly.dev/)
-https://phonebook-backend-part3.fly.dev/
+You can access the live application here: https://phonebook-backend-part3.fly.dev/
+
