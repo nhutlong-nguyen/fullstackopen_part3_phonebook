@@ -10,7 +10,7 @@ console.log('connecting to', url)
 
 mongoose.connect(url)
 
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch((error) => {
@@ -23,7 +23,7 @@ const phoneNumberValidator = number => {
     return false
   }
   if (!parts[0].match(/^\d{2,3}$/) || !parts[1].match(/^\d+$/)) {
-    return false;
+    return false
   }
   return number.length >= 8
 }

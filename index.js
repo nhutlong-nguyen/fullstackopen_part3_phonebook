@@ -18,7 +18,7 @@ const errorHandler = (error, req, res, next) => {
 }
 
 const unknownEndpoint = (req, res) => {
-  res.status(404).send({ error: 'unknown endpoint'})
+  res.status(404).send( { error: 'unknown endpoint' })
 }
 
 app.use(express.json()) //should be the very first middleware loaded into Express
@@ -37,7 +37,7 @@ morgan.token('body', (req) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.get('/', (req, res) => {
-    res.send('This is the root page')
+  res.send('This is the root page')
 })
 
 app.get('/info', (req, res, next) => {
@@ -73,7 +73,7 @@ app.get('/api/persons/:id', (req, res, next) => {
 
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndDelete(req.params.id)
-    .then(result => {
+    .then(() => {
       res.status(204).end()
     })
     .catch(error => next(error))
@@ -83,8 +83,8 @@ app.post('/api/persons/', (req, res, next) => {
   const body = req.body
 
   const person = new Person({
-     name: body.name,
-     number: body.number
+    name: body.name,
+    number: body.number
   })
 
   person.save()
@@ -98,12 +98,12 @@ app.put('/api/persons/:id', (req, res, next) => {
   const { name, number }  = req.body
 
   Person.findByIdAndUpdate(
-    req.params.id, 
+    req.params.id,
     { name, number },
     { new: true, runValidators: true, context: 'query' }
   )
     .then(updatedPerson => {
-        res.json(updatedPerson)
+      res.json(updatedPerson)
     })
     .catch(error => next(error))
 })
@@ -113,5 +113,5 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT , () => {
-    console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })
